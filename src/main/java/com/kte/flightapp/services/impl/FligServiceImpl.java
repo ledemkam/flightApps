@@ -7,6 +7,8 @@ import com.kte.flightapp.services.FlightService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Transactional(readOnly = true)
 @Service
 public class FligServiceImpl implements FlightService {
@@ -21,5 +23,11 @@ public class FligServiceImpl implements FlightService {
     @Transactional
     public Flight addFlight(Flight flight) {
         return flightRepository.save(flight);
+    }
+
+    @Override
+    @Transactional
+    public List<Flight> getAllFlights() {
+        return flightRepository.findAll();
     }
 }

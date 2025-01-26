@@ -1,78 +1,49 @@
-package com.kte.flightapp.modells.entity;
+package com.kte.flightapp.modells.dto;
 
+import com.kte.flightapp.modells.embeddable.CabinDetail;
+import com.kte.flightapp.modells.embeddable.InflightInfo;
+import com.kte.flightapp.modells.enumeration.CompanyName;
 import com.kte.flightapp.modells.enumeration.FlightType;
 import com.kte.flightapp.modells.enumeration.TravelType;
-import jakarta.persistence.*;
-import lombok.*;
+
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Set;
 
 
-@Entity
-@Table(name = "flight")
-public class Flight {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class FlightDTO {
     private Long id;
-
-    @ManyToOne
-    @JoinColumn(name = "company_id")
-    private Company company;
-
-    @Column(name = "flight_type")
-    @Enumerated(EnumType.STRING)
+    private CompanyName companyName;
     private FlightType flightType;
-
-    @Column(name = "travel_type")
-    @Enumerated(EnumType.STRING)
     private TravelType travelType;
-
-    @Column(name = "departure_date")
     private LocalDate departureDate;
-
-    @Column(name = "arrival_date")
-    private LocalDate arrivalDate;
-
-    @Column(name = "back_date")
-    private LocalDate backDate;
-
-    @Column(name = "departure_time")
     private LocalTime departureTime;
-
-    @Column(name = "arrival_time")
+    private LocalDate arrivalDate;
     private LocalTime arrivalTime;
-
-    @Column(name = "back_time")
+    private LocalDate backDate;
     private LocalTime backTime;
-
-    @Column(name = "departure_location")
     private String departureLocation;
-
-    @Column(name = "arrival_location")
     private String arrivalLocation;
-
-    @Column(name = "flight_duration")
     private LocalTime flightDuration;
-
-    @Column(name = "connection_duration")
     private LocalTime connectionDuration;
-
-    @Column(name = "aircraft_type")
     private String aircraftType;
+    private Set<CabinDetail> cabinDetails;
+    private Set<String> comforts;
+    private Set<InflightInfo> inflightInfos;
 
-    public Flight() {
+    public FlightDTO() {
     }
 
-    public Flight(LocalDate backDate, Long id, Company company, FlightType flightType, TravelType travelType, LocalDate departureDate, LocalDate arrivalDate, LocalTime departureTime, LocalTime arrivalTime, LocalTime backTime, String departureLocation, String arrivalLocation, LocalTime flightDuration, LocalTime connectionDuration, String aircraftType) {
+    public FlightDTO(LocalDate backDate, Long id, CompanyName companyName, FlightType flightType, TravelType travelType, LocalDate departureDate, LocalTime departureTime, LocalDate arrivalDate, LocalTime arrivalTime, LocalTime backTime, String departureLocation, String arrivalLocation, LocalTime flightDuration, LocalTime connectionDuration, String aircraftType, Set<CabinDetail> cabinDetails, Set<String> comforts, Set<InflightInfo> inflightInfos) {
         this.backDate = backDate;
         this.id = id;
-        this.company = company;
+        this.companyName = companyName;
         this.flightType = flightType;
         this.travelType = travelType;
         this.departureDate = departureDate;
-        this.arrivalDate = arrivalDate;
         this.departureTime = departureTime;
+        this.arrivalDate = arrivalDate;
         this.arrivalTime = arrivalTime;
         this.backTime = backTime;
         this.departureLocation = departureLocation;
@@ -80,6 +51,17 @@ public class Flight {
         this.flightDuration = flightDuration;
         this.connectionDuration = connectionDuration;
         this.aircraftType = aircraftType;
+        this.cabinDetails = cabinDetails;
+        this.comforts = comforts;
+        this.inflightInfos = inflightInfos;
+    }
+
+    public LocalTime getArrivalTime() {
+        return arrivalTime;
+    }
+
+    public void setArrivalTime(LocalTime arrivalTime) {
+        this.arrivalTime = arrivalTime;
     }
 
     public Long getId() {
@@ -90,12 +72,12 @@ public class Flight {
         this.id = id;
     }
 
-    public Company getCompany() {
-        return company;
+    public CompanyName getCompanyName() {
+        return companyName;
     }
 
-    public void setCompany(Company company) {
-        this.company = company;
+    public void setCompanyName(CompanyName companyName) {
+        this.companyName = companyName;
     }
 
     public FlightType getFlightType() {
@@ -122,6 +104,14 @@ public class Flight {
         this.departureDate = departureDate;
     }
 
+    public LocalTime getDepartureTime() {
+        return departureTime;
+    }
+
+    public void setDepartureTime(LocalTime departureTime) {
+        this.departureTime = departureTime;
+    }
+
     public LocalDate getArrivalDate() {
         return arrivalDate;
     }
@@ -136,22 +126,6 @@ public class Flight {
 
     public void setBackDate(LocalDate backDate) {
         this.backDate = backDate;
-    }
-
-    public LocalTime getDepartureTime() {
-        return departureTime;
-    }
-
-    public void setDepartureTime(LocalTime departureTime) {
-        this.departureTime = departureTime;
-    }
-
-    public LocalTime getArrivalTime() {
-        return arrivalTime;
-    }
-
-    public void setArrivalTime(LocalTime arrivalTime) {
-        this.arrivalTime = arrivalTime;
     }
 
     public LocalTime getBackTime() {
@@ -202,25 +176,27 @@ public class Flight {
         this.aircraftType = aircraftType;
     }
 
-    @Override
-    public String toString() {
-        return "Flight{" +
-                "id=" + id +
-                ", company=" + company +
-                ", flightType=" + flightType +
-                ", travelType=" + travelType +
-                ", departureDate=" + departureDate +
-                ", arrivalDate=" + arrivalDate +
-                ", backDate=" + backDate +
-                ", departureTime=" + departureTime +
-                ", arrivalTime=" + arrivalTime +
-                ", backTime=" + backTime +
-                ", departureLocation='" + departureLocation + '\'' +
-                ", arrivalLocation='" + arrivalLocation + '\'' +
-                ", flightDuration=" + flightDuration +
-                ", connectionDuration=" + connectionDuration +
-                ", aircraftType='" + aircraftType + '\'' +
-                '}';
+    public Set<CabinDetail> getCabinDetails() {
+        return cabinDetails;
+    }
+
+    public void setCabinDetails(Set<CabinDetail> cabinDetails) {
+        this.cabinDetails = cabinDetails;
+    }
+
+    public Set<String> getComforts() {
+        return comforts;
+    }
+
+    public void setComforts(Set<String> comforts) {
+        this.comforts = comforts;
+    }
+
+    public Set<InflightInfo> getInflightInfos() {
+        return inflightInfos;
+    }
+
+    public void setInflightInfos(Set<InflightInfo> inflightInfos) {
+        this.inflightInfos = inflightInfos;
     }
 }
-
