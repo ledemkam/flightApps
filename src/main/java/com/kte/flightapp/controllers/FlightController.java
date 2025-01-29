@@ -1,5 +1,7 @@
 package com.kte.flightapp.controllers;
 
+import com.kte.flightapp.modells.Criteria.FlightCriteria;
+import com.kte.flightapp.modells.Criteria.SynthesisCriteria;
 import com.kte.flightapp.modells.dto.FlightDTO;
 import com.kte.flightapp.modells.entity.Flight;
 import com.kte.flightapp.services.FlightService;
@@ -54,5 +56,28 @@ public class FlightController {
                                                .collect(Collectors.toList());
 
         return new ResponseEntity<List<FlightDTO>>(flights,new HttpHeaders(), HttpStatus.OK);
+    }
+
+    @PostMapping(path = "/search")
+    public ResponseEntity<List<FlightDTO>> searchFlight(@RequestBody FlightCriteria flightCriteria) {
+        List<FlightDTO> flights = flightService.searchFlight(flightCriteria)
+                                               .stream()
+                                               .map(flight -> modelMapper.map(flight, FlightDTO.class))
+                                               .collect(Collectors.toList());
+
+        return new ResponseEntity<List<FlightDTO>>(flights,new HttpHeaders(), HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/getFlight/{id}")
+    public ResponseEntity<FlightDTO> getFlightById(@PathVariable Long id) {
+        Flight flight = flightService.getFlightById(id);
+        FlightDTO flightDTO = modelMapper.map(flight, FlightDTO.class);
+        return new ResponseEntity<FlightDTO>(flightDTO, new HttpHeaders(), HttpStatus.OK);
+    }
+
+    @PostMapping(path = "/numberOfFlights")
+    public ResponseEntity<Long> getNumberOfFlights(@RequestBody SynthesisCriteria sysnthesisCriteria) {
+        Long numberOfFlights = flightService.getNumberOfFlights(sysnthesisCriteria);
+        return new ResponseEntity<Long>(numberOfFlights, new HttpHeaders(), HttpStatus.OK);
     }
 }
